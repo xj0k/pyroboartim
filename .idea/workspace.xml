@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="dfd4ce70-fdcd-4289-be38-ca04f3a427d0" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/im-login.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/im-sendmsg.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gui-lotto.py" beforeDir="false" afterPath="$PROJECT_DIR$/gui-lotto.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/im-gui.py" beforeDir="false" afterPath="$PROJECT_DIR$/im-gui.py" afterDir="false" />
-    </list>
+    <list default="true" id="dfd4ce70-fdcd-4289-be38-ca04f3a427d0" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -211,6 +204,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Break im-gui into small steps." />
+    <option name="LAST_COMMIT_MESSAGE" value="Break im-gui into small steps." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
