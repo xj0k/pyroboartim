@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
 import sys
-import PySimpleGUI as sg
+import PySimpleGUIQt as sg
 import sleekxmpp
 
 window = None
 
-jid = "xj0k2@chatserver.space"
+jid = "xj0k@chatserver.space"
 password = "1234!@#$"
 server = ("chatserver.space", 5222)
 gClient = sleekxmpp.ClientXMPP(jid, password)

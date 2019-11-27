@@ -4,13 +4,35 @@ import sys
 import PySimpleGUIQt as sg
 import sleekxmpp
 
-jid = "xj0k2@chatserver.space"
-password = "1234!@#$"
+
+jids = [
+    "xj0k2@chatserver.space",
+    "tangjunbin@chatserver.space",
+    "fengyijun@chatserver.space",
+    "dengweiyi@chatserver.space"
+    ]
+passwords = [ "1234!@#$",'tangjunbin','fengyijun','dengweiyi' ]
+acc = 0
+jid = jids[acc]
+password = passwords[acc]
+
 server = ("chatserver.space", 5222)
 
 gClient = sleekxmpp.ClientXMPP(jid, password)
 
+def im_send(msg):
+    mto = 'xj0k1234@trillian.im'
+    print("开始发送:%s" % msg)
+    gClient.send_message(mto,msg)
+
+def recv_msg(msg):
+    m = msg['body']
+    print("received:%s" % m)
+
 def im_login():
+    gClient.add_event_handler('message',recv_msg)
+    print("login with:%s" % jid)
+
     if gClient.connect(server):
         # 链接服务器
         print("链接成功，开始发送在线状态")
@@ -27,7 +49,9 @@ def im_logout():
 
 layout = [
     [sg.Text("Will start chat.")],
-    [sg.Button("start login",key='login')],
+    [sg.InputText(key='message')],
+    [sg.Button("请登录",key='login')],
+    [sg.Button("send",key='send')],
     [sg.Button('exit',key='exit')]
 ]
 window = sg.Window("chatting",layout)
@@ -43,4 +67,8 @@ while True:
         print("Will start login.")
         im_login()
 
+    if event == 'send':
+        imsg=window.Element('message').Get()
+        print(imsg)
+        im_send(imsg)
 

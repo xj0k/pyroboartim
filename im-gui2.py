@@ -8,30 +8,36 @@ window = None
 
 jid = "xj0k2@chatserver.space"
 password = "1234!@#$"
-jid = 'tangjunbin@chatserver.space'
-password = 'tangjunbin'
 server = ("chatserver.space", 5222)
 gClient = sleekxmpp.ClientXMPP(jid, password)
 
-
 def send_msg(msg):
-    mto = "xj0k2@chatserver.space"
+    #mto = "xj0k@chatserver.space"
     mto = 'xj0k1234@trillian.im'
     gClient.send_message(mto,msg)
+
+def recv_msg( msg):
+    t = msg['body']
+    window.Element('recv').Update(value=t)
 
 def im_logout():
     gClient.disconnect(wait=True)
 
 def im_login():
+    gClient.add_event_handler("message", recv_msg)
     if gClient.connect(server):
         print("Connected, start processing messages.")
         gClient.send_presence()
         gClient.process(block=False)
         print("Done.")
+    else:
+        print("Unable to connect.")
+
 
 layout = [
     [sg.Text("Will start chat.")],
     [sg.InputText(key='message',default_text='please input message here')],
+    [sg.InputText(key='recv')],
     [sg.Button("login",key='start')],
     [sg.Button('send',key='send'),sg.Button('exit',key='exit')]
 ]
@@ -49,10 +55,8 @@ while True:
         im_login()
 
     if event == 'send':
-        msgInput = window.Element('message')
-        msg = msgInput.Get()
+        msg = window.Element('message').Get()
         print("sending message:%s" % msg )
         send_msg(msg)
-        msgInput.update("")
 
 
