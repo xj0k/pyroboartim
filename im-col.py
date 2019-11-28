@@ -65,7 +65,7 @@ def im_login():
 
 
 frm_login = [
-    [sg.Image(filename="/users/netbox-wangdong/downloads/logo-srap.png")],
+    [sg.Image(filename="logo-srap.png")],
     [sg.Text("Please login")],
     [sg.InputText(key='id', default_text='user id',size=size_i)],
     [sg.InputText(key='password',size=size_i)],
