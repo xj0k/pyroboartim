@@ -1,42 +1,44 @@
-'''
-from pyowm import OWM
+from docx import Document
+from docx.shared import Inches
 
-API_key = '2ca9531f67ec5094e09d41b81e6b55ab'
-owm = OWM(API_key)
-#obs = owm.weather_at_place('London,GB')
-obs = owm.weather_at_id(1790437)
-print(obs.get_reception_time() )
-w = obs.get_weather()
-print("cloud:%s, rain:%s, temperature:%s" % (w.get_clouds(),w.get_rain(),w.get_temperature(unit='celsius')))
+document = Document()
 
-'''
+document.add_heading('Document Title', 0)
 
-import PySimpleGUIQt as sg
+p = document.add_paragraph('A plain paragraph having some ')
+p.add_run('bold').bold = True
+p.add_run(' and some ')
+p.add_run('italic.').italic = True
 
-# Demo of how columns work
-# window has on row 1 a vertical slider followed by a COLUMN with 7 rows
-# Prior to the Column element, this layout was not possible
-# Columns layouts look identical to window layouts, they are a list of lists of elements.
+document.add_heading('Heading, level 1', level=1)
+document.add_paragraph('Intense quote', style='Intense Quote')
 
-window = sg.Window('Columns')                                   # blank window
+document.add_paragraph(
+    'first item in unordered list', style='List Bullet'
+)
+document.add_paragraph(
+    'first item in ordered list', style='List Number'
+)
 
-# Column layout
-col = [[sg.Text('col Row 1')],
-       [sg.Text('col Row 2'), sg.Input('col input 1')],
-       [sg.Text('col Row 3'), sg.Input('col input 2')],
-       [sg.Text('col Row 4'), sg.Input('col input 3')],
-       [sg.Text('col Row 5'), sg.Input('col input 4')],
-       [sg.Text('col Row 6'), sg.Input('col input 5')],
-       [sg.Text('col Row 7'), sg.Input('col input 6')]]
+document.add_picture('logo-srap.png', width=Inches(1.25))
 
-layout = [[sg.Slider(range=(1,100), default_value=10, orientation='v', size=(8,20)), sg.Column(col)],
-          [sg.In('Last input')],
-          [sg.OK()]]
+records = (
+    (3, '101', 'Spam'),
+    (7, '422', 'Eggs'),
+    (4, '631', 'Spam, spam, eggs, and spam')
+)
 
-# Display the window and get values
+table = document.add_table(rows=1, cols=3)
+hdr_cells = table.rows[0].cells
+hdr_cells[0].text = 'Qty'
+hdr_cells[1].text = 'Id'
+hdr_cells[2].text = 'Desc'
+for qty, id, desc in records:
+    row_cells = table.add_row().cells
+    row_cells[0].text = str(qty)
+    row_cells[1].text = id
+    row_cells[2].text = desc
 
-window = sg.Window('Compact 1-line window with column', layout)
-event, values = window.read()
-window.Close()
+document.add_page_break()
 
-sg.Popup(event, values, line_width=200)
+document.save('demo.docx')

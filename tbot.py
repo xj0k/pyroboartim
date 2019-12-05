@@ -1,8 +1,12 @@
+
+# tuling bot
+
 import time
 import os
 import urllib.request
 import json
 #import urllib3
+
 
 
 # Turing API
@@ -37,8 +41,10 @@ def robot_resp(text_input):
             }
     }
     req = json.dumps(req).encode('utf8')
+    print("tbot:sending request to tuling123")
     http_post = urllib.request.Request(API_URL, data=req, headers={'content-type': 'application/json'})
     response = urllib.request.urlopen(http_post)
+    print("tbot:done")
     response_str = response.read().decode('utf8')
     # print(response_str)
     response_dic = json.loads(response_str)

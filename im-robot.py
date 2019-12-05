@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 
 import sys
-import PySimpleGUIQt as sg
+import PySimpleGUI as sg
 import sleekxmpp
+import webbrowser
+import tbot
+import os
 
 window = None
 
@@ -13,7 +16,7 @@ jids = [
     "dengweiyi@chatserver.space"
     ]
 passwords = [ "1234!@#$",'tangjunbin','fengyijun','dengweiyi' ]
-acc = 3
+acc = 0
 jid = jids[acc]
 password = passwords[acc]
 
@@ -30,20 +33,40 @@ def send_msg(msg):
 
 def recv_msg( msg):
     t = msg['body']
-    kw = "C:"
     show_message(t)
-    if t.startswith(kw):
-        f = t.split(kw)[1]
-        print("received a calculation request:%s" % f)
-        r = str(eval(f))
-        print("result:%s" % r)
-        print("sending back result")
-        #msg.reply(r).send()
-        send_msg(r)
-        print("done")
+
+    ct = t.split(':')[0]
+    if ct is None:
+        return
+
+    cs = t.split(':',1)[1]
+    print("type:%s,command:%s" % (ct,cs))
+
+    if ct == 'C':
+        r = str(eval(cs))
+    elif ct == 'R':
+        print("sending request to turling123")
+        r = tbot.robot_resp(cs)
+    elif ct =='W':
+        print('opening url')
+        b = webbrowser.get('chrome')
+        if b.open(cs):
+            r = 'ok'
+        else:
+            r = 'failed'
+    elif ct == 'O':
+        r = os.popen(cs).read()
+        print(r)
+
+
+    print("result:%s" % r)
+    print("sending back result")
+    send_msg(r)
+    print("done")
 
 
 def im_logout():
+    send_msg("Robot out, bye!")
     gClient.disconnect(wait=True)
 
 def im_login():
@@ -59,11 +82,14 @@ def im_login():
 
 layout = [
     [sg.Text("Will start chat.")],
-    [sg.InputText(key='message',default_text='please input message here')],
+    [sg.InputText(key='message',default_text='')],
     [sg.InputText(key='recv')],
     [sg.Button("login",key='start')],
+    [sg.Button("test",key='test')],
     [sg.Button('send',key='send'),sg.Button('exit',key='exit')]
 ]
+
+
 window = sg.Window("chatting",layout)
 while True:
     event,values = window.read()
@@ -76,10 +102,13 @@ while True:
     if event == 'start':
         print("will start chat process.")
         im_login()
+        send_msg('robot started, please input command.')
 
     if event == 'send':
         msg = window.Element('message').Get()
         print("sending message:%s" % msg )
         send_msg(msg)
 
-
+    if event == 'test':
+        r = os.popen("ls -lt").read()
+        print(r)

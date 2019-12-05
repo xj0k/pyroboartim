@@ -5,28 +5,39 @@ import PySimpleGUI as sg
 import sleekxmpp
 
 
-# 用户名和密码
-jid = "dengweiyi@chatserver.space"
-password = 'dengweiyi'
+jids = [
+    "xj0k2@chatserver.space",
+    "tangjunbin@chatserver.space",
+    "fengyijun@chatserver.space",
+    "dengweiyi@chatserver.space"
+    ]
+passwords = [ "1234!@#$",'tangjunbin','fengyijun','dengweiyi' ]
+acc = 0
+jid = jids[acc]
+password = passwords[acc]
 
-# 服务器地址
 server = ("chatserver.space", 5222)
 
-# 初始化
+jid = 'xj0k1234@trillian.im'
+password = '1234!@#$'
+server = ("impp.trillian.im",3158)
+
 gClient = sleekxmpp.ClientXMPP(jid, password)
 
 def im_send(msg):
     mto = 'xj0k1234@trillian.im'
-    mto='fengyijun@chatserver.space'
     print("开始发送:%s" % msg)
     gClient.send_message(mto,msg)
+    r = window.Element('msg_display')
+    m = '\n' +msg
+    r.Update(value=m,append=True)
 
 def recv_msg(msg):
     m = msg['body']
-    print("接收到消息，内容是:%s" % m)
+    print("received:%s" % m)
     r = window.Element('msg_display')
-    r.Update(value=m + '\n', append=True)
-
+    m = '\n' + m
+    r.Update(value=m,append=True)
 
 def im_login():
     gClient.add_event_handler('message',recv_msg)
@@ -46,33 +57,28 @@ def im_logout():
     gClient.disconnect(wait=True)
 
 
-layout_old = [
-    [sg.Text("请登录.")],
-    [sg.Image("logo-srap.png")],
-    [sg.InputText(key='msg_display')],
-    [sg.InputText(key='msg_send')],
-    [sg.Button("send", key='send')],
-    [sg.Button("登录", key='login')],
+layout2 = [
+    [sg.Text("Will start chat.")],
+    [sg.Button("登录",key='login')],
+    [sg.Button("send",key='send')],
+    [sg.Button('exit',key='exit')]
 ]
 
-layout_login = [
-    [sg.Text("请登录.")],
-    [sg.Image("logo-srap.png")],
-    [sg.Button("登录", key='login'), sg.Button("退出", key='exit') ]
+l_login = [
+    [sg.Text("Will start chat.")],
+    [sg.Button("登录", key='login'), sg.Button('exit', key='exit')]
 ]
-
-layout_msg = [
+l_chat = [
     [sg.Multiline(key='msg_display')],
-    [sg.InputText(key='msg_send')],
-    [sg.Button("send", key='send')]
+    [sg.InputText(key='msg_send'), sg.Button("send", key='send')],
 ]
 
-layout = [
-    [sg.Frame('登录',key='win_login',layout=layout_login,visible=True),
-     sg.Frame('聊天',key='win_msg',layout=layout_msg,visible=True)]
+layout3 = [
+   [ sg.Frame('login',key='win_login',layout=l_login,visible=True),
+     sg.Frame('chat',key='win_chat',layout=l_chat,visible=False)]
 ]
 
-window = sg.Window(jid,layout)
+window = sg.Window("chatting",layout3)
 while True:
     event,values = window.read()
     print(event,values)
@@ -85,13 +91,10 @@ while True:
         print("Will start login.")
         im_login()
         window.Element('win_login').Update(visible=False)
-        window.Element('win_msg').Update(visible=True)
+        window.Element('win_chat').Update(visible=True)
 
     if event == 'send':
-        msg = values['msg_send']
-        print(msg)
-        im_send(msg)
-        window.Element('msg_send').Update(value='')
-        r = window.Element('msg_display')
-        r.Update(value=msg+'\n',append=True)
+        imsg = values['msg_send']
+        print(imsg)
+        im_send(imsg)
 

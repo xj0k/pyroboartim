@@ -78,7 +78,7 @@ frm_friends = [
 ]
 
 frm_text = [
-    [sg.Multiline(key='text',size=(txt_wid,14),disabled=True)],
+    [sg.Multiline(key='text',size=(txt_wid,14),disabled=True,border_width=0), sg.Multiline(key='text',size=(txt_wid,14),disabled=True,border_width=0)],
     [sg.InputText("",key='message',size=size_i) ],
     [sg.Button('send', key='send',size=size_b), sg.Button('back', key='back',size=size_b)]
 ]

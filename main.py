@@ -33,3 +33,11 @@ def test2():
     window.Close()
 
 test2()
+
+weekdays = ['星期一','星期二','星期三','星期四','星期五','星期六','星期天']
+for i in range(7):
+    print("It is " + weekdays[i])
+    if i>=4:
+        print("Let's enjoy weekend,yeah!")
+    else:
+        print("I don't want to to to schoo!")
