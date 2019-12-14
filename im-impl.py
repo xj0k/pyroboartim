@@ -17,10 +17,16 @@ bgcolor = 'whitesmoke'
 jid = "xj0k2@chatserver.space"
 password = "1234!@#$"
 server = ("chatserver.space", 5222)
+
+jid = 'test1@localhost'
+password = '123456'
+server = ("192.168.3.218", 5222)
+
 gClient = sleekxmpp.ClientXMPP(jid, password)
 
 #mto = "xj0k@chatserver.space"
 mto = 'xj0k1234@trillian.im'
+mto = 'test2@localhost'
 
 txt_wid = 16
 size_i = (txt_wid,1)
